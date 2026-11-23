@@ -6,7 +6,6 @@ description: What this skill does and when to use it. Name the situations that s
 # metadata:
 #   version: 1.0.0
 #   tags: [tag-a, tag-b]
-#   scope: global
 # disable-model-invocation: true
 ---
 
@@ -32,5 +31,3 @@ description: What this skill does and when to use it. Name the situations that s
 - references/api.md：查 API 细节时读
 - scripts/check.py：需要校验时跑
 ```
-
-frontmatter 的 `metadata` 块里可以加 `scope`，用来指明安装位置：`global` 装到全局目录，`project:<name>` 留给项目级安装。
