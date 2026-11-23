@@ -6,7 +6,7 @@
 
 `skills/<name>/` 是 skill 的唯一真源。要改 skill 就改这里，不改 `~/.agents/skills` 里的副本。
 
-安装方向只有一条：仓库 → 消费目录，由 `scripts/install-skills.mjs` 完成。复制回来的做法会制造冲突。
+安装方向只有一条：仓库 → 消费目录，由官方 `skills` CLI（`npx skills add makursi/personal-skills -g`）完成，仓库不维护安装脚本。复制回来的做法会制造冲突。
 
 ## 改完就跑校验
 

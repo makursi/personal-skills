@@ -123,7 +123,7 @@ def check_skill(skill_dir: Path, findings: Findings) -> None:
 
     metadata = data.get("metadata")
     if not isinstance(metadata, dict):
-        findings.warn(where, "缺少 metadata 块（version / tags / scope）")
+        findings.warn(where, "缺少 metadata 块（version / tags）")
     else:
         if not metadata.get("version"):
             findings.warn(where, "metadata 缺少 version")

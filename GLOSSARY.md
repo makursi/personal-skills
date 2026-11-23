@@ -52,10 +52,6 @@ _Avoid_：目标目录、安装目录
 由别人编写、通过外部管理器安装的 Skill，不属于本仓库。
 _Avoid_：外部 skill、公共 skill
 
-**scope**：
-frontmatter 中的字段，声明 Skill 装到全局还是某个项目。
-_Avoid_：范围、作用域
-
 ## 协作
 
 **triage 角色**：
