@@ -9,6 +9,7 @@ oversized 一例在临时目录里把样本重复到 500 KiB 以上，仓库里�
 
 from __future__ import annotations
 
+import os
 import subprocess
 import sys
 import tempfile
@@ -20,6 +21,12 @@ CHECKER = HERE / "check-readme.py"
 FIXTURES = HERE / "fixtures"
 MAX_BYTES = 500 * 1024
 FILLER = "This line exists only to push the fixture past 500 KiB.\n"
+# 固定 remote，absolute-url 一例因此不依赖当前 clone 的 origin，fork 里也能跑。
+IN_REPO_REMOTE_ENV = {
+    "GIT_CONFIG_COUNT": "1",
+    "GIT_CONFIG_KEY_0": "remote.origin.url",
+    "GIT_CONFIG_VALUE_0": "https://github.com/makursi/personal-skills.git",
+}
 
 
 def ensure_utf8_streams() -> None:
@@ -39,12 +46,16 @@ class Case:
     expected_code: int
     expected_check: str | None = None
     cwd: Path | None = None
+    env: dict[str, str] | None = None
 
 
 def run_checker(case: Case) -> tuple[int, str]:
     command = [sys.executable, str(CHECKER)]
     if case.target is not None:
         command.append(str(case.target))
+    env = os.environ.copy()
+    if case.env is not None:
+        env.update(case.env)
     completed = subprocess.run(
         command,
         cwd=case.cwd or HERE,
@@ -53,6 +64,7 @@ def run_checker(case: Case) -> tuple[int, str]:
         encoding="utf-8",
         errors="replace",
         timeout=60,
+        env=env,
     )
     return completed.returncode, (completed.stdout or "") + (completed.stderr or "")
 
@@ -100,7 +112,15 @@ def main() -> int:
             "single-line-link-text",
         ),
         Case("hand-written-toc", FIXTURES / "toc", 1, "hand-written-toc"),
-        Case("absolute-in-repo-url", FIXTURES / "absolute-url", 1, "in-repo-absolute-url"),
+        Case("single-item-toc", FIXTURES / "toc-single", 1, "hand-written-toc"),
+        Case(
+            "absolute-in-repo-url",
+            FIXTURES / "absolute-url",
+            1,
+            "in-repo-absolute-url",
+            env=IN_REPO_REMOTE_ENV,
+        ),
+        Case("external-repo-url", FIXTURES / "external-url", 0),
         Case("missing-path", FIXTURES / "does-not-exist", 2),
     ]
 
@@ -112,6 +132,18 @@ def main() -> int:
         repeats = MAX_BYTES // len(FILLER) + 100
         (target / "README.md").write_text(base + "\n" + FILLER * repeats, encoding="utf-8")
         results.append(check_case(Case("oversized", target, 1, "file-size")))
+
+    with tempfile.TemporaryDirectory() as tmp:
+        repo = Path(tmp)
+        # 只需要 .git 标记：remote 读不到时按无远端处理，仓库根仍由这个目录决定。
+        (repo / ".git").mkdir()
+        (repo / "LICENSE").write_text("MIT\n", encoding="utf-8")
+        package = repo / "package"
+        package.mkdir()
+        (package / "README.md").write_text(
+            "# package\n\nSee the [license](/LICENSE).\n", encoding="utf-8"
+        )
+        results.append(check_case(Case("root-absolute-subpackage", package, 0)))
 
     passed = sum(results)
     failed = len(results) - passed

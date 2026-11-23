@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// 把 skills/ 下的 skill 以目录链接的方式安装到目标目录。
+// 把 skills/ 下的 skill 以目录链接的方式安装到消费目录。
 // Windows 用 junction（不需要管理员权限），其他平台用目录符号链接。
 // 仓库是唯一真源：链接指回仓库，改了文件立刻生效。
 import fs from "node:fs";
