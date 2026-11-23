@@ -39,6 +39,8 @@ jobs:
         run: |
           $output = npx -y skills@1.9.0 add . --list 2>&1 | Out-String
           $code = $LASTEXITCODE
+          # CLI 给数字和名字上了颜色，先剥掉 ANSI 再断言
+          $output = $output -replace "`e\[[0-9;]*[A-Za-z]", ""
           Write-Output $output
           if ($code -ne 0) {
             throw "skills add --list 退出码 $code"
