@@ -37,8 +37,6 @@
 
 ## 未决分支
 
-- 21 个自建 skill（`shirone-*` 13 个、`re1999-*` 4 个等）何时迁入，以及项目级 skill 的 `metadata.scope` 如何命名。
-- 安装目标是否扩展到 Claude Code 的 `~/.claude/skills`。`install-skills.mjs` 的 `--target` 已经是唯一配置点，扩展成本低。
 - 是否把外部 PR 当作 triage 入口。当前开关为 `no`，在 `docs/agents/issue-tracker.md` 里改。
 - `GLOSSARY.md` 与 `docs/adr/` 由 `/domain-modeling` 按需懒创建，现在不建。
 
