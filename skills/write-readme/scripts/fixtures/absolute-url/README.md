@@ -1,3 +1,3 @@
 # Absolute repository URL fixture
 
-Read the [setup guide](https://github.com/example/repo/blob/main/docs/guide.md) in the browser, then clone the repo.
+Read the [project overview](https://github.com/makursi/personal-skills/blob/main/README.md) in the browser, then clone the repo.

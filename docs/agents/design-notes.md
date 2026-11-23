@@ -39,11 +39,12 @@
 | 21 | 外部 PR 作为 triage 入口 | 开启，`PRs as a request surface: yes` | 仓库公开，外部 PR 是真实需求来源；开关就在 `docs/agents/issue-tracker.md`，一个词就能关掉 |
 | 22 | `GLOSSARY.md` 与 `docs/adr/` | 现在就建，不等懒创建 | 术语和难回退的决定已经存在，留空目录没有意义 |
 | 23 | PR 体例 | 三节：Summary、Evidence、Merge Danger，含 Door 与 Blast Radius | 落到 `.github/pull_request_template.md`，GitHub 新建 PR 时自动填充 |
-| 24 | 第一个 skill 的 invocation | user-invoked：`disable-model-invocation: true`，`description` 只留一句人读的摘要 | 只在显式输入时生效，不占每次会话的上下文，也不会被 Agent 自行触发去改别人仓库；代价是只能靠人记住它 |
+| 24 | 第一个 skill 的 invocation | user-invoked：`disable-model-invocation: true`，`description` 只留一句给人读的用途说明 | 只在显式输入时生效，不占每次会话的上下文，也不会被 Agent 自行触发去改别人仓库；代价是只能靠人记住它 |
 | 25 | README 骨架 | 固定 H2 顺序，分必写六节与条件小节两层；`assets/README-template.md` 是唯一骨架 | 顺序固定才让两次产出可比；条件小节按项目类型出现，不适用就整节省略，不为过检查填占位 |
 | 26 | 验收分工 | 脚本判机械项，正文自检清单判语义项 | 链接目标、体积、手写目录不靠 Agent 自信；内容真假、命令可执行、状态一致仍由人读，脚本刻意不越界 |
 | 27 | 不加 ADR | 只记入这份设计决策记录，不建 `docs/adr/` 条目 | 固定小节顺序是双向门：改它只是改一张表和一份模板，够不上 ADR 的门槛 |
 | 28 | 与 `zh-tech-writing` 的边界 | 互不调用，也不复制它的规则 | 这个 skill 产出英文 README，`zh-tech-writing` 管中文文风；方向相反，复制只会带来对不上的约束 |
+| 29 | 本仓库 README 的语言与骨架 | 根 `README.md` 用英文，按本 skill 的固定 H2 骨架写 | 仓库 README 正是这个 skill 要治理的产物，先在自己的 README 上跑一遍才算验证规则；`docs/agents/design-notes.md` 与 skill 正文仍用中文 |
 
 ## 未决分支
 

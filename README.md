@@ -1,60 +1,72 @@
-# Personal Skills Repository
+# Personal Skills
 
-我自己的 AI Agent Skills 仓库。skill 在这里编写，这里是唯一真源，再安装到各 Agent 的 skills 目录。
+A personal collection of Agent Skills, and the single source of truth for them. Skills are written here once and linked into each agent's skills directory, so editing a file here updates the installed skill immediately.
 
-## 目录结构
+## Status
 
-```text
-.
-├── AGENTS.md                  # Agent 在本仓库的约定
-├── CONTRIBUTING.md            # 给人看的贡献流程
-├── docs/agents/               # Agent 读取的约定文件
-├── skills/                    # 唯一真源，一个目录一个 skill
-│   └── write-readme/          # 按固定骨架写仓库 README
-├── templates/skill-template/  # 新 skill 的起点
-├── scripts/                   # 校验与安装
-└── .github/workflows/         # CI
-```
+Maintained.
 
-## 快速开始
+## Getting started
 
-校验全部 skill：
+Requires Python 3.13 with PyYAML, and Node.js 22 — the versions CI uses.
+
+Validate every skill in the repository:
 
 ```bash
 python scripts/validate-skills.py
 ```
 
-试运行安装，不写磁盘：
+Preview the install without writing to disk:
 
 ```bash
 node scripts/install-skills.mjs --dry-run
 ```
 
-## 新建一个 skill
+## Usage
+
+Start a new skill from the template:
 
 ```bash
-cp -r templates/skill-template skills/<skill-name>
+cp -r templates/skill-template skills/my-skill
 ```
 
-然后改 `SKILL.md` 的 frontmatter 和正文，规则见 [CONTRIBUTING.md](./CONTRIBUTING.md)。
+The copy prints nothing; `skills/my-skill/` then exists. Edit its `SKILL.md`: set `name` to `my-skill`, keep the frontmatter English, and replace the body with real steps. Run the validation command above; with the new skill filled in it exits 0 and reports two skills, zero errors, and zero warnings.
 
-## 约定
+## Architecture
 
-| 项 | 规则 |
-|---|---|
-| 目录名 | 小写字母、数字、连字符，最长 64 字符，与 frontmatter 的 `name` 一致 |
-| frontmatter | 用英文。`name` 和 `description` 必填，`description` 不超过 1024 字符 |
-| 正文 | 用中文 |
-| 参考资料 | 放 `references/`，按需读取，不整段塞进 `SKILL.md` |
-| 脚本 | 放 `scripts/` |
-| 静态资源 | 放 `assets/` |
+```text
+.
+├── AGENTS.md                  # rules agents follow in this repository
+├── CONTRIBUTING.md            # how to add or change a skill
+├── GLOSSARY.md                # the repository's vocabulary
+├── LICENSE                    # MIT
+├── README.md                  # this file
+├── docs/
+│   ├── adr/                   # decisions that are hard to reverse
+│   └── agents/                # agent-facing conventions and design notes
+├── skills/                    # one directory per skill; the only place skills are written
+│   └── write-readme/          # write a repository README from a fixed skeleton
+├── templates/skill-template/  # starting point for a new skill
+├── scripts/                   # validation and installation
+└── .github/workflows/         # CI
+```
 
-安装到 `~/.agents/skills` 用的是目录 junction，指向本仓库。改了仓库里的文件，Agent 立刻看到新版本。
+## Documentation
 
-## 文档
+- [AGENTS.md](./AGENTS.md): what agents read before changing the repository
+- [GLOSSARY.md](./GLOSSARY.md): the words to use in docs and pull requests
+- [docs/adr/](./docs/adr/): decisions that are hard to reverse, and the alternatives they reject
+- [docs/agents/design-notes.md](./docs/agents/design-notes.md): why the repository is shaped this way, and what it rules out
+- [CONTRIBUTING.md](./CONTRIBUTING.md): the contribution flow and the pull request format
 
-- [AGENTS.md](./AGENTS.md)：Agent 动手前读的约定
-- [GLOSSARY.md](./GLOSSARY.md)：仓库用词，写文档和 PR 时对齐说法
-- [docs/adr/](./docs/adr/)：难以回退的决定，以及否决掉的替代方案
-- [docs/agents/design-notes.md](./docs/agents/design-notes.md)：为什么这样设计，以及对哪些做法说不
-- [CONTRIBUTING.md](./CONTRIBUTING.md)：新增和修改 skill 的流程，以及 PR 体例
+## Getting help
+
+Open an issue at [github.com/makursi/personal-skills/issues](https://github.com/makursi/personal-skills/issues).
+
+## Contributing
+
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) first. Work on a branch, run the validation command above, and fill all three sections of the pull request template: Summary, Evidence, and Merge Danger.
+
+## License
+
+MIT. See [LICENSE](./LICENSE).
