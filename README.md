@@ -1,6 +1,6 @@
 # Personal Skills
 
-A personally authored collection of Agent Skills, published so anyone can install it. Installation is a copy into the agent skill directories managed by the official [`skills` CLI](https://github.com/vercel-labs/skills); this repository remains the single place where the skills are written.
+A personally authored collection of Agent Skills, published so anyone can install it. Installation is handled by the official [`skills` CLI](https://github.com/vercel-labs/skills): the skill files are copied into the canonical `~/.agents/skills` directory, and each per-agent directory links to that copy, or gets a copy too when linking is unavailable. This repository remains the single place where the skills are written.
 
 ## Status
 
@@ -16,7 +16,7 @@ Install the collection globally:
 npx skills add makursi/personal-skills -g
 ```
 
-`-g` puts the skills in `~/.agents/skills`. That is the only destination guaranteed to exist: for other agents (Claude Code, Cursor, and so on) the CLI asks which platforms to target and writes to whichever directories it detects. List what is installed:
+`-g` puts the skills in `~/.agents/skills`, the only destination guaranteed to exist. For other agents (Claude Code, Cursor, and so on) the CLI targets the agents it detects; it asks which platforms to install only when it must, and a non-interactive run (`-y`) picks for you. List what is installed:
 
 ```bash
 npx skills list -g
