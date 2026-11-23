@@ -1,6 +1,6 @@
 ---
 name: write-readme
-description: Probe a repository's facts and audit its README section by section, with evidence for every verdict.
+description: Probe a repository's facts, audit its README section by section, and write the confirmed English draft.
 disable-model-invocation: true
 metadata:
   version: 0.1.0
@@ -10,14 +10,14 @@ metadata:
 
 # write-readme
 
-先探查仓库事实，再按固定骨架逐节审计 README，产出逐行带证据的 gap 报告。
+先探查仓库事实，再按固定骨架逐节审计 README，用户确认草稿后落笔，交付一份英文 README。
 
 ## 何时使用
 
 - 仓库没有 `README.md`，或 README 已经落后于代码和脚本。
 - 安装、运行命令与 `scripts/`、CI 对不上，想知道差在哪。
-- 给 monorepo 的某个子包补 README：给一个路径就审计那个目录，缺省审计仓库根目录。
-- 对外发布前，先要一张按小节排好的缺口清单。
+- 给 monorepo 的某个子包补 README：给一个路径就处理那个目录，缺省处理仓库根目录。
+- 对外发布前，先要一张按小节排好的缺口清单，再据此改写。
 
 ## 探查
 
@@ -40,23 +40,7 @@ metadata:
 
 ## 审计
 
-按下面的固定骨架逐节对照证据，报告的排序与骨架一致。报告直接回在对话里，不写磁盘。
-
-```text
-# <项目名>
-（1–3 句：做什么 + 为什么有用）
-[徽章] [截图/演示]                                   条件
-## Status                                           必写：一行维护状态
-## Getting started                                  必写：前置要求 + 安装 + 构建 + 运行
-## Usage                                            必写：示例 + 预期输出
-[## Configuration]                                  条件：有配置项
-[## Architecture]                                   条件：多模块
-[## Documentation]                                  条件：有独立文档
-## Getting help                                     必写：求助入口 + 维护者联系方式
-## Contributing                                     必写：指向 CONTRIBUTING.md 与 PR 流程
-## License                                          必写：许可证名 + 指向 LICENSE
-[## Acknowledgements / Related projects / Citation]  条件
-```
+按 `assets/README-template.md` 的骨架顺序逐节对照证据，报告的排序与骨架一致。报告直接回在对话里，不写磁盘。
 
 每个小节给一个现状：
 
@@ -70,6 +54,20 @@ metadata:
 
 完成判据：六个必写节各有一行现状和一条证据；每个条件节要么给出结论，要么写明不适用的理由。
 
+## 落笔
+
+按 `assets/README-template.md` 的骨架写英文草稿，每节怎么写由 `references/readme-spec.md` 定；事实只取探查留下的证据。
+
+已有 README：判为「保留」的小节原样沿用；「改写」「新增」「删除」各自对上审计里的一条，逐条落实。没有 README：按骨架写整份草稿。
+
+草稿先贴进对话，标明哪些小节新写、哪些沿用，以及待确认问题怎么处理，等用户确认。用户确认之后才写磁盘，一次写入目标目录的 `README.md`。
+
+标题层级即导航：GitHub 按标题自动生成 Outline，正文里不写目录。
+
+完成判据：用户确认过草稿，磁盘上的 `README.md` 与确认稿逐节一致、与骨架的 H2 顺序一致。
+
 ## 参考资料
 
+- `assets/README-template.md`：固定骨架，顺序与条件小节的位置都以它为准；落笔时照它填。
+- `references/readme-spec.md`：每节必须回答什么、素材从哪来、反例，以及条件小节的触发条件；写草稿前读。
 - `references/audit-report.md`：报告的四列、动作词与一份按本骨架填好的范例；写报告前读。
