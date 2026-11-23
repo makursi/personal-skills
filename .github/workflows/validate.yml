@@ -27,6 +27,9 @@ jobs:
       - name: 校验 skill 结构
         run: python scripts/validate-skills.py
 
+      - name: 校验 README 检查脚本
+        run: python skills/write-readme/scripts/test-check-readme.py
+
       - uses: actions/setup-node@v5
         with:
           node-version: "22"
