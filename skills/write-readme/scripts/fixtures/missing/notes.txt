@@ -1,0 +1,1 @@
+This directory has no README at the root, in .github/, or in docs/.
