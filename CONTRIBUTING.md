@@ -15,7 +15,7 @@ npx skills add makursi/personal-skills -g
 - 名字冲突时改名：`--rename <name>`
 - Windows 上链接需要开发者模式（Developer Mode）；没开或链接失败时 CLI 退回复制，功能不受影响
 
-`skills update` 会删除并重建消费目录，消费者在副本上的手改会随之丢失。要改就把改动提回本仓库。
+`skills update` 会删除并重建消费目录里的那份副本，消费者在副本上的手改会随之丢失。要改就把改动提回本仓库。
 
 CLI 的源取自 GitHub 的 `main`。没 push 的本地改动不会进入消费目录。作者流程：
 
@@ -35,7 +35,7 @@ CLI 的源取自 GitHub 的 `main`。没 push 的本地改动不会进入消费�
 ## 新增 skill
 
 1. 复制模板：`cp -r templates/skill-template skills/<skill-name>`
-2. 改 frontmatter：`name` 与目录名一致，`description` 写清做什么、什么时候用
+2. 改 frontmatter：删掉模板里的 `internal: true`，`name` 与目录名一致，`description` 写清做什么、什么时候用
 3. 写正文：何时使用、流程、参考资料
 4. 资料放 `references/`，脚本放 `scripts/`，静态资源放 `assets/`
 5. 跑 `python scripts/validate-skills.py`，退出码 0 才算通过
