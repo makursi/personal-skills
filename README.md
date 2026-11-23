@@ -8,7 +8,7 @@ Maintained.
 
 ## Getting started
 
-Requires Node.js 22.20 or newer for the installer, and Python 3.13 with PyYAML to run the repository scripts.
+Requires Node.js 22.20 or newer for the `skills` CLI, and Python 3.13 with PyYAML to run the repository scripts.
 
 Install the collection globally:
 
@@ -54,7 +54,7 @@ To add or change a skill, follow [CONTRIBUTING.md](./CONTRIBUTING.md).
 ├── skills/                    # one directory per skill; the only place skills are written
 │   └── write-readme/          # write a repository README from a fixed skeleton
 ├── templates/skill-template/  # starting point for a new skill
-├── scripts/                   # skill validation; the legacy installer is scheduled for deletion
+├── scripts/                   # skill validation
 └── .github/workflows/         # CI
 ```
 

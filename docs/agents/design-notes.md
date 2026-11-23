@@ -45,7 +45,7 @@
 | 28 | 与 `zh-tech-writing` 的边界 | 互不调用，也不复制它的规则 | 这个 skill 产出英文 README，`zh-tech-writing` 管中文文风；方向相反，复制只会带来对不上的约束 |
 | 29 | 本仓库 README 的语言与骨架 | 根 `README.md` 用英文，按本 skill 的固定 H2 骨架写 | 仓库 README 正是这个 skill 要治理的产物，先在自己的 README 上跑一遍才算验证规则；`docs/agents/design-notes.md` 与 skill 正文仍用中文 |
 | 30 | 分发命令 | `npx skills add makursi/personal-skills -g`，装进消费目录 `~/.agents/skills` | 官方 `skills` CLI 是平台认可的安装路径；一条命令跨机器，junction 与符号链接做不到 |
-| 31 | 安装器数量 | 只留 `skills` CLI 一个安装器，仓库自带的 `scripts/install-skills.mjs` 随后删除 | 两套安装器会各自演化出不同的消费目录形状，排错时先要判断是哪套装的 |
+| 31 | 安装器数量 | 只留 `skills` CLI 一个安装器，仓库自带的 `scripts/install-skills.mjs` 已删除 | 两套安装器会各自演化出不同的消费目录形状，排错时先要判断是哪套装的 |
 | 32 | `metadata.scope` | 从 frontmatter 移除；装全局还是项目级由 `npx skills add -g` 决定 | 安装作用域是消费者当下的选择，不该由 skill 作者在 frontmatter 里预先声明 |
 | 33 | skill 命名 | 不加仓库名前缀，直接用 skill 名 | skill 名同时是调用名，前缀会污染它；本仓库的 skill 名已足够独特，冲突风险不值得让每个名字变长 |
 | 34 | 版本 | 跟随 `main`，不打 tag、不发版本号 | 个人仓库没有兼容矩阵要维护；CLI 取仓库最新状态，版本号只会多一层要同步的元数据 |
