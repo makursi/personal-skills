@@ -33,12 +33,14 @@
 | 17 | Agent 约定文件 | 只建 `AGENTS.md`，不建 `CLAUDE.md` | 本仓库服务于 DeepSeek Harness，不绑定 Claude Code |
 | 18 | Triage 标签 | 保留五个默认角色，标签串与角色同名 | 仓库新建，没有历史标签要兼容 |
 | 19 | Domain docs | single-context：根 `GLOSSARY.md` + `docs/adr/` | 仓库没有 monorepo 信号 |
-| 20 | `docs/agents/*.md` 语言 | 英文，与 skill 种子模板逐字一致 | `/triage` 会按字面读 `PRs as a request surface: no` 这类开关，翻译有解析风险 |
+| 20 | `docs/agents/*.md` 语言 | 英文，与 skill 种子模板逐字一致 | `/triage` 会按字面读 `PRs as a request surface: yes` 这类开关，翻译有解析风险 |
+| 21 | 外部 PR 作为 triage 入口 | 开启，`PRs as a request surface: yes` | 仓库公开，外部 PR 是真实需求来源；开关就在 `docs/agents/issue-tracker.md`，一个词就能关掉 |
+| 22 | `GLOSSARY.md` 与 `docs/adr/` | 现在就建，不等懒创建 | 术语和难回退的决定已经存在，留空目录没有意义 |
+| 23 | PR 体例 | 三节：Summary、Evidence、Merge Danger，含 Door 与 Blast Radius | 落到 `.github/pull_request_template.md`，GitHub 新建 PR 时自动填充 |
 
 ## 未决分支
 
-- 是否把外部 PR 当作 triage 入口。当前开关为 `no`，在 `docs/agents/issue-tracker.md` 里改。
-- `GLOSSARY.md` 与 `docs/adr/` 由 `/domain-modeling` 按需懒创建，现在不建。
+暂时没有。新问题出现时在这里追加，并写清依赖哪条已定决策。
 
 ## 已否决分支
 

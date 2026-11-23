@@ -27,6 +27,9 @@ python scripts/validate-skills.py
 
 ## 文档指针
 
+- `GLOSSARY.md`：仓库用词。输出里用这里的词，不用 `_Avoid_` 列的别称。
+- `docs/adr/`：难以回退的决定和理由。改架构前读一遍，别推翻已经定下的取舍。
+- `.github/pull_request_template.md`：写 PR 描述用，三节都要填。
 - `docs/agents/design-notes.md`：设计决策与理由。要动仓库结构或新增约定前读它。
 - `docs/agents/issue-tracker.md`：issue 落在哪、怎么读写。
 - `docs/agents/triage-labels.md`：五个 triage 角色对应的标签串。

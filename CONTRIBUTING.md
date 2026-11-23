@@ -39,6 +39,16 @@
 
 `--strict` 把告警也当失败。
 
+## Pull request
+
+PR 描述按 [`.github/pull_request_template.md`](./.github/pull_request_template.md) 填，三节都要有：
+
+- **Summary**：用文件树、diff 或流程图说清改了什么，选最快看懂的形状。
+- **Evidence**：改前和改后的真实输出，贴命令结果。写“已验证”不算。
+- **Merge Danger**：说明是单向门还是双向门，以及影响面。
+
+外部 PR 会进 triage 队列，标签约定见 `docs/agents/triage-labels.md`。
+
 ## 提交信息
 
 一行说清改了哪个 skill、改了什么行为。

@@ -55,5 +55,7 @@ cp -r templates/skill-template skills/<skill-name>
 ## 文档
 
 - [AGENTS.md](./AGENTS.md)：Agent 动手前读的约定
+- [GLOSSARY.md](./GLOSSARY.md)：仓库用词，写文档和 PR 时对齐说法
+- [docs/adr/](./docs/adr/)：难以回退的决定，以及否决掉的替代方案
 - [docs/agents/design-notes.md](./docs/agents/design-notes.md)：为什么这样设计，以及对哪些做法说不
-- [CONTRIBUTING.md](./CONTRIBUTING.md)：新增和修改 skill 的流程
+- [CONTRIBUTING.md](./CONTRIBUTING.md)：新增和修改 skill 的流程，以及 PR 体例
