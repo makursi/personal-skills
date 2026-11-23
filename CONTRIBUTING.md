@@ -41,7 +41,7 @@
 
 ## Pull request
 
-PR 描述按 [`.github/pull_request_template.md`](./.github/pull_request_template.md) 填，三节都要有：
+PR 描述用英文写，按 `/pr` 技能的规范填，三节都要有：
 
 - **Summary**：用文件树、diff 或流程图说清改了什么，选最快看懂的形状。
 - **Evidence**：改前和改后的真实输出，贴命令结果。写“已验证”不算。

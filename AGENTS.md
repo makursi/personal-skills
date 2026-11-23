@@ -25,6 +25,16 @@ python scripts/validate-skills.py
 3. 资料放 `references/`，脚本放 `scripts/`，静态资源放 `assets/`
 4. 跑校验
 
+## Pull request
+
+PR 描述一律用英文写，并按 `/pr` 技能的规范成型：`Summary`、`Evidence`、`Merge Danger` 三节都要有，缺一节即不合格。
+
+- `Summary` 选最小视图说清改了什么，别用散文复述 diff。
+- `Evidence` 给改前和改后的真实输出；写“已验证”不算证据。
+- `Merge Danger` 写明 Door 和 Blast Radius。
+
+模板在 `.github/pull_request_template.md`，与 `/pr` 技能同构；用词取 `GLOSSARY.md`。
+
 ## 文档指针
 
 - `GLOSSARY.md`：仓库用词。输出里用这里的词，不用 `_Avoid_` 列的别称。
