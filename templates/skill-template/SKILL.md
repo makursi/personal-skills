@@ -1,11 +1,14 @@
 ---
 name: skill-name
 description: What this skill does and when to use it. Name the situations that should trigger it. Keep it under 1024 characters.
-# 取消注释即可启用可选字段
+metadata:
+  # 复制到 skills/<name> 后删掉下面这行 internal: true，
+  # 否则新 skill 会被安装器跳过，装不上。
+  internal: true
+  # 取消注释即可启用可选字段
+  # version: 1.0.0
+  # tags: [tag-a, tag-b]
 # license: MIT
-# metadata:
-#   version: 1.0.0
-#   tags: [tag-a, tag-b]
 # disable-model-invocation: true
 ---
 
