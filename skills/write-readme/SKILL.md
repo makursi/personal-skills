@@ -1,6 +1,6 @@
 ---
 name: write-readme
-description: Probe a repository's facts, audit its README section by section, and write the confirmed English draft.
+description: Probe a repository's facts, audit its README section by section, write the confirmed English draft, and verify it with the bundled checker until it passes.
 disable-model-invocation: true
 metadata:
   version: 0.1.0
@@ -10,7 +10,7 @@ metadata:
 
 # write-readme
 
-先探查仓库事实，再按固定骨架逐节审计 README，用户确认草稿后落笔，交付一份英文 README。
+先探查仓库事实，再按固定骨架逐节审计 README，用户确认草稿后落笔，最后跑机械校验脚本；退出码 0 才算交付。
 
 ## 何时使用
 
@@ -62,12 +62,36 @@ metadata:
 
 草稿先贴进对话，标明哪些小节新写、哪些沿用，以及待确认问题怎么处理，等用户确认。用户确认之后才写磁盘，一次写入目标目录的 `README.md`。
 
-标题层级即导航：GitHub 按标题自动生成 Outline，正文里不写目录。
+标题层级即导航：正文里不写目录，链接与图片路径按 `references/github-mechanics.md` 的规则落笔。
 
 完成判据：用户确认过草稿，磁盘上的 `README.md` 与确认稿逐节一致、与骨架的 H2 顺序一致。
+
+## 校验
+
+机械项交给脚本，退出码 0 才算完成：
+
+```bash
+python ~/.agents/skills/write-readme/scripts/check-readme.py <target>
+```
+
+`<target>` 是刚写完的目录或它的 `README.md`，缺省 `.`。`~/.agents/skills/write-readme` 是 skill 的安装目录，脚本固定在那里；在本仓库里改 skill 时，同一文件是 `skills/write-readme/scripts/check-readme.py`。脚本能判什么、退出码各代表什么，以它文件头的说明为准。
+
+退出码 1：照输出逐条修 README，再跑一遍，直到 0；修的是 README，判据保持原样。退出码 2：环境或用法问题，比如路径不存在、Python 不可用，先解决，它不算通过。
+
+脚本只判机械项。写完的 README 再过一遍语义自检，任一条不过就回去改：
+
+- 没有占位符、模板注释、`<...>` 槽位残留。
+- `Status` 一行与探查到的证据一致，写的是维护中、实验性还是已弃用。
+- 每条命令都能照抄运行，与清单文件、`Makefile` / `justfile`、CI 里的一致。
+- 产出是英文；命令、包名、路径、环境变量保持仓库里的原样。
+- 每个必写小节都有真实内容，标题下不是空行，也不是一句指向别处的说明。
+
+完成判据：脚本退出码 0，且上面五条自检全部通过。任一条不过就不算交付。
 
 ## 参考资料
 
 - `assets/README-template.md`：固定骨架，顺序与条件小节的位置都以它为准；落笔时照它填。
 - `references/readme-spec.md`：每节必须回答什么、素材从哪来、反例，以及条件小节的触发条件；写草稿前读。
 - `references/audit-report.md`：报告的四列、动作词与一份按本骨架填好的范例；写报告前读。
+- `references/github-mechanics.md`：GitHub 对 README 的文件名、位置、体积、Outline、锚点与链接的处理，以及每条处理的写作后果；写草稿和校验前读。
+- `scripts/check-readme.py`：机械校验脚本，「校验」里的命令就是它；判据与退出码以文件头说明为准。
