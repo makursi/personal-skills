@@ -8,7 +8,9 @@
 
 一个个人 AI Agent Skills 仓库，要做到什么程度才算基建完成？
 
-前提约束：只收本人编写的 skill，不收第三方。一期只建基建，`skills/` 保持为空。
+前提约束：只收本人编写的 skill，不收第三方。一期先建基建，再用第一个 skill 验收它：`write-readme` 已落地，`skills/` 不再留空。
+
+原判断「一期只建基建，`skills/` 保持为空」已被推翻：模板、校验、安装与 CI 先后跑通后，链路不再缺待验证的对象；继续留空只会让「基建完成」停在占位物上。第一个真实 skill 才是这套基建的验收对象，写它并装进消费目录是本期的收尾动作。
 
 ## 已定分支
 
@@ -16,7 +18,7 @@
 |---|---|---|---|
 | 1 | 仓库身份 | 唯一真源。skill 只在这里写，单向安装到消费目录 | 双向同步必然冲突。现有 84 个全局 skill 是第三方实体副本，与本仓库职责不重叠 |
 | 2 | 收录范围 | 只收本人编写的 skill | 第三方 skill 重发布到 public 仓库有授权风险，且带来维护负担 |
-| 3 | 一期内容 | 0 个 skill，只建骨架 | 先验证模板、校验、安装整条链路，链路通了再往里搬东西 |
+| 3 | 一期内容 | 先建骨架，再用第一个 skill 验收；不预先囤 skill | 先验证模板、校验、安装整条链路，链路通了再往里搬东西 |
 | 4 | 脚本语言 | Python 校验 + Node 安装，不写 bash | 主环境是 Windows + pwsh；校验要同时跑在本机和 Ubuntu CI |
 | 5 | 文档语言 | `SKILL.md` frontmatter 英文、正文中文 | 触发靠 `description` 匹配，英文命中稳；正文自己维护，中文更快 |
 | 6 | 仓库布局 | 保留 `skills/` 一层，skill 平铺 | 划出仓库设施与内容的边界，安装脚本只扫一个目录 |
@@ -37,6 +39,11 @@
 | 21 | 外部 PR 作为 triage 入口 | 开启，`PRs as a request surface: yes` | 仓库公开，外部 PR 是真实需求来源；开关就在 `docs/agents/issue-tracker.md`，一个词就能关掉 |
 | 22 | `GLOSSARY.md` 与 `docs/adr/` | 现在就建，不等懒创建 | 术语和难回退的决定已经存在，留空目录没有意义 |
 | 23 | PR 体例 | 三节：Summary、Evidence、Merge Danger，含 Door 与 Blast Radius | 落到 `.github/pull_request_template.md`，GitHub 新建 PR 时自动填充 |
+| 24 | 第一个 skill 的 invocation | user-invoked：`disable-model-invocation: true`，`description` 只留一句人读的摘要 | 只在显式输入时生效，不占每次会话的上下文，也不会被 Agent 自行触发去改别人仓库；代价是只能靠人记住它 |
+| 25 | README 骨架 | 固定 H2 顺序，分必写六节与条件小节两层；`assets/README-template.md` 是唯一骨架 | 顺序固定才让两次产出可比；条件小节按项目类型出现，不适用就整节省略，不为过检查填占位 |
+| 26 | 验收分工 | 脚本判机械项，正文自检清单判语义项 | 链接目标、体积、手写目录不靠 Agent 自信；内容真假、命令可执行、状态一致仍由人读，脚本刻意不越界 |
+| 27 | 不加 ADR | 只记入这份设计决策记录，不建 `docs/adr/` 条目 | 固定小节顺序是双向门：改它只是改一张表和一份模板，够不上 ADR 的门槛 |
+| 28 | 与 `zh-tech-writing` 的边界 | 互不调用，也不复制它的规则 | 这个 skill 产出英文 README，`zh-tech-writing` 管中文文风；方向相反，复制只会带来对不上的约束 |
 
 ## 未决分支
 

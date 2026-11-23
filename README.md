@@ -2,8 +2,6 @@
 
 我自己的 AI Agent Skills 仓库。skill 在这里编写，这里是唯一真源，再安装到各 Agent 的 skills 目录。
 
-当前只有基建，`skills/` 里还没有 skill。
-
 ## 目录结构
 
 ```text
@@ -12,6 +10,7 @@
 ├── CONTRIBUTING.md            # 给人看的贡献流程
 ├── docs/agents/               # Agent 读取的约定文件
 ├── skills/                    # 唯一真源，一个目录一个 skill
+│   └── write-readme/          # 按固定骨架写仓库 README
 ├── templates/skill-template/  # 新 skill 的起点
 ├── scripts/                   # 校验与安装
 └── .github/workflows/         # CI
