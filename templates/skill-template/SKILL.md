@@ -1,12 +1,14 @@
 ---
 name: skill-name
 description: What this skill does and when to use it. Name the situations that should trigger it. Keep it under 1024 characters.
-# 取消注释即可启用可选字段
+metadata:
+  # 复制到 skills/<name> 后删掉下面这行 internal: true，
+  # 否则新 skill 会被安装器跳过，装不上。
+  internal: true
+  # 取消注释即可启用可选字段
+  # version: 1.0.0
+  # tags: [tag-a, tag-b]
 # license: MIT
-# metadata:
-#   version: 1.0.0
-#   tags: [tag-a, tag-b]
-#   scope: global
 # disable-model-invocation: true
 ---
 
@@ -32,5 +34,3 @@ description: What this skill does and when to use it. Name the situations that s
 - references/api.md：查 API 细节时读
 - scripts/check.py：需要校验时跑
 ```
-
-frontmatter 的 `metadata` 块里可以加 `scope`，用来指明安装位置：`global` 装到全局目录，`project:<name>` 留给项目级安装。

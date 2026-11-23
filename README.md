@@ -1,6 +1,6 @@
 # Personal Skills
 
-A personal collection of Agent Skills, and the single source of truth for them. Skills are written here once and linked into each agent's skills directory, so editing a file here updates the installed skill immediately.
+A personally authored collection of Agent Skills, published so anyone can install it. Installation is handled by the official [`skills` CLI](https://github.com/vercel-labs/skills): the skill files are copied into the canonical `~/.agents/skills` directory, and each per-agent directory links to that copy, or gets a copy too when linking is unavailable. This repository remains the single place where the skills are written.
 
 ## Status
 
@@ -8,29 +8,36 @@ Maintained.
 
 ## Getting started
 
-Requires Python 3.13 with PyYAML, and Node.js 22 — the versions CI uses.
+Requires Node.js 22.20 or newer for the `skills` CLI, and Python 3.13 with PyYAML to run the repository scripts.
 
-Validate every skill in the repository:
+Install the collection globally:
 
 ```bash
-python scripts/validate-skills.py
+npx skills add makursi/personal-skills -g
 ```
 
-Preview the install without writing to disk:
+`-g` puts the skills in `~/.agents/skills`, the only destination guaranteed to exist. For other agents (Claude Code, Cursor, and so on) the CLI targets the agents it detects; it asks which platforms to install only when it must, and a non-interactive run (`-y`) picks for you. List what is installed:
 
 ```bash
-node scripts/install-skills.mjs --dry-run
+npx skills list -g
 ```
 
 ## Usage
 
-Start a new skill from the template:
+Run the `write-readme` skill's checker against this repository:
 
 ```bash
-cp -r templates/skill-template skills/my-skill
+python skills/write-readme/scripts/check-readme.py .
 ```
 
-The copy prints nothing; `skills/my-skill/` then exists. Edit its `SKILL.md`: set `name` to `my-skill`, keep the frontmatter English, and replace the body with real steps. Run the validation command above; with the new skill filled in it exits 0 and reports two skills, zero errors, and zero warnings.
+```text
+README：README.md（仓库根目录）
+
+0 个违规。
+检查通过。
+```
+
+To add or change a skill, follow [CONTRIBUTING.md](./CONTRIBUTING.md).
 
 ## Architecture
 
@@ -47,7 +54,7 @@ The copy prints nothing; `skills/my-skill/` then exists. Edit its `SKILL.md`: se
 ├── skills/                    # one directory per skill; the only place skills are written
 │   └── write-readme/          # write a repository README from a fixed skeleton
 ├── templates/skill-template/  # starting point for a new skill
-├── scripts/                   # validation and installation
+├── scripts/                   # skill validation
 └── .github/workflows/         # CI
 ```
 
@@ -65,7 +72,7 @@ Open an issue at [github.com/makursi/personal-skills/issues](https://github.com/
 
 ## Contributing
 
-Read [CONTRIBUTING.md](./CONTRIBUTING.md) first. Work on a branch, run the validation command above, and fill all three sections of the pull request template: Summary, Evidence, and Merge Danger.
+Read [CONTRIBUTING.md](./CONTRIBUTING.md) first. Work on a branch, run `python scripts/validate-skills.py`, and fill all three sections of the pull request template: Summary, Evidence, and Merge Danger.
 
 ## License
 

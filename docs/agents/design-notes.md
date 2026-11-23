@@ -12,6 +12,8 @@
 
 原判断「一期只建基建，`skills/` 保持为空」已被推翻：模板、校验、安装与 CI 先后跑通后，链路不再缺待验证的对象；继续留空只会让「基建完成」停在占位物上。第一个真实 skill 才是这套基建的验收对象，写它并装进消费目录是本期的收尾动作。
 
+分发面与安装面已定，下一处开放问题是 skill 变多之后消费者怎么找到对的那个：靠索引、靠描述匹配还是别的发现手段。目录分类已经否决（见下文「已否决分支」），不在这条线里重开。
+
 ## 已定分支
 
 | # | 决策 | 结论 | 理由 |
@@ -25,9 +27,6 @@
 | 7 | 分类方式 | 目录不分类，靠 `metadata.tags` | 消费者按 `description` 匹配而非路径；分类目录会强迫每次新建都回答归类问题 |
 | 8 | 校验严格度 | 硬失败 5 条，其余告警 | CI 拦结构性错误，不统一文风 |
 | 9 | 模板深度 | `SKILL.md` + 三个空目录 + `.gitkeep` | 空目录本身是规范的一部分，告诉写作者资料放哪 |
-| 10 | 安装方式 | Windows junction / POSIX 目录符号链接，`--dry-run` 先行 | junction 无需管理员权限；链接让仓库成为活真源，改完立即生效 |
-| 11 | 安装作用域 | `metadata.scope` 驱动，`--scope|--target` 控制 | 项目级 skill 装全局会污染每个会话的技能目录 |
-| 12 | 与 skills.sh 的关系 | 自建 skill 走 junction，不登记进 `.skill-lock.json` | 登记后 `skills update` 可能按 hash 覆盖手写内容 |
 | 13 | LICENSE | MIT | 与 antfu/skills、humanlayer/skills 一致 |
 | 14 | 远端 | `github.com/makursi/personal-skills`，public，`main` | 已建 |
 | 15 | 首个提交 | 只做本地 commit，push 由本人执行 | public 仓库的首个提交定调，且凭据交互失败会留半截状态 |
@@ -45,6 +44,12 @@
 | 27 | 不加 ADR | 只记入这份设计决策记录，不建 `docs/adr/` 条目 | 固定小节顺序是双向门：改它只是改一张表和一份模板，够不上 ADR 的门槛 |
 | 28 | 与 `zh-tech-writing` 的边界 | 互不调用，也不复制它的规则 | 这个 skill 产出英文 README，`zh-tech-writing` 管中文文风；方向相反，复制只会带来对不上的约束 |
 | 29 | 本仓库 README 的语言与骨架 | 根 `README.md` 用英文，按本 skill 的固定 H2 骨架写 | 仓库 README 正是这个 skill 要治理的产物，先在自己的 README 上跑一遍才算验证规则；`docs/agents/design-notes.md` 与 skill 正文仍用中文 |
+| 30 | 分发命令 | 唯一分发命令是官方 `skills` CLI 的安装命令，命令原文与取舍写在 [ADR 0003](../adr/0003-install-via-official-skills-cli.md)，此处不重复 | 官方 `skills` CLI 是平台认可的安装路径；一条命令跨机器，junction 与符号链接做不到；命令只留一份，避免多处漂移 |
+| 31 | 安装器数量 | 只留 `skills` CLI 一个安装器，仓库自带的 `scripts/install-skills.mjs` 已删除 | 两套安装器会各自演化出不同的消费目录形状，排错时先要判断是哪套装的 |
+| 32 | `metadata.scope` | 从 frontmatter 移除；装全局还是项目级由 `npx skills add -g` 决定 | 安装作用域是消费者当下的选择，不该由 skill 作者在 frontmatter 里预先声明 |
+| 33 | skill 命名 | 不加仓库名前缀，直接用 skill 名 | skill 名同时是调用名，前缀会污染它；本仓库的 skill 名已足够独特，冲突风险不值得让每个名字变长 |
+| 34 | 版本 | 跟随 `main`，不打 tag、不发版本号 | 个人仓库没有兼容矩阵要维护；CLI 取仓库最新状态，版本号只会多一层要同步的元数据 |
+| 35 | CI 冒烟 | 旧的安装 dry-run 换成只读可发现性冒烟：`npx -y skills@1.9.0 add . --list` | 它的职责是证明仓库布局对 CLI 可发现，不测 CLI 自己的复制与锁行为；CI 不碰消费目录 |
 
 ## 未决分支
 
@@ -56,7 +61,7 @@
 |---|---|
 | 全量迁入 84 个第三方 skill | 授权风险；82 个已查到上游出处（antfu/skills、Matt Pocock、humanlayer、vercel、vuejs-ai）；批改未读代码会成为维护负担 |
 | 把第三方 skill 登记进仓库做“外部依赖清单” | 一期不讨论具体 skill；且第三方继续由 skills.sh 按 lock 管理已足够 |
-| 自建 skill 也登记进 `.skill-lock.json` | 会被同一安装器按 hash 覆盖手写内容 |
+| 自建 skill 也登记进 `.skill-lock.json` | 会被同一安装器按 hash 覆盖手写内容。这条反对的是手工维护锁文件；现在登记由 CLI 在安装时完成（见 [ADR 0003](../adr/0003-install-via-official-skills-cli.md)），不需要人写 |
 | 自建 skill 装到独立目录 `~/.agents/skills-local` | 需要改消费端配置来合并两个目录，绕过标准 |
 | 安装脚本用 bash | 主环境是 Windows，与 CI 的 Ubuntu 也不是同一套路径语义 |
 | 按领域分类目录（development / documentation / research / productivity） | 一个 skill 常常同时属于两类；分类是给人看的，消费者不看路径 |
@@ -64,3 +69,6 @@
 | 建 `CLAUDE.md` | 本仓库不绑定 Claude Code，两份约定会漂移 |
 | 本地 markdown issue tracker（`.scratch/`） | `gh` 跑不动是沙箱审批问题，不是架构问题；public 仓库下两种方案的暴露面相同 |
 | 用 `code-review` 之外的自动化测试跑 skill 执行效果 | 一期没有 skill 可测，等有内容再补 |
+| 安装方式：Windows junction / POSIX 目录符号链接（原已定 #10） | 对外分发要求别人能把仓库装到自己机器上，junction 与目录符号链接都跨不了机器，路径钉死在作者本机 |
+| 安装作用域由 `metadata.scope` 驱动（原已定 #11） | 字段随复制安装一起作废：装全局还是项目级改由 `npx skills add -g` 当场决定，不再写进 frontmatter |
+| 自建 skill 继续走 junction、不登记进 `.skill-lock.json`（原已定 #12） | 这条否决只在 junction 安装器存在时成立：那时登记等于把自建 skill 交给一个会按 hash 覆盖手写内容的安装器。junction 安装器已删除，登记改由 CLI 在安装时完成（见 [ADR 0003](../adr/0003-install-via-official-skills-cli.md)），否决随之失效；历史理由保留在此以便追溯 |

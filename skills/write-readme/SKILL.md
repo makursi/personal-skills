@@ -5,7 +5,6 @@ disable-model-invocation: true
 metadata:
   version: 0.1.0
   tags: [readme, documentation, audit]
-  scope: global
 ---
 
 # write-readme

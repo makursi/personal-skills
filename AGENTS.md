@@ -6,7 +6,7 @@
 
 `skills/<name>/` 是 skill 的唯一真源。要改 skill 就改这里，不改 `~/.agents/skills` 里的副本。
 
-安装方向只有一条：仓库 → 消费目录，由 `scripts/install-skills.mjs` 完成。复制回来的做法会制造冲突。
+安装方向只有一条：仓库 → 消费目录，由官方 `skills` CLI（`npx skills add makursi/personal-skills -g`）完成，仓库不维护安装脚本。复制回来的做法会制造冲突。
 
 ## 改完就跑校验
 
@@ -24,6 +24,16 @@ python scripts/validate-skills.py
 2. 写 `SKILL.md`：frontmatter 用英文，正文用中文
 3. 资料放 `references/`，脚本放 `scripts/`，静态资源放 `assets/`
 4. 跑校验
+
+## Pull request
+
+PR 描述一律用英文写，并按 `/pr` 技能的规范成型：`Summary`、`Evidence`、`Merge Danger` 三节都要有，缺一节即不合格。
+
+- `Summary` 选最小视图说清改了什么，别用散文复述 diff。
+- `Evidence` 给改前和改后的真实输出；写“已验证”不算证据。
+- `Merge Danger` 写明 Door 和 Blast Radius。
+
+模板在 `.github/pull_request_template.md`，与 `/pr` 技能同构；用词取 `GLOSSARY.md`。
 
 ## 文档指针
 

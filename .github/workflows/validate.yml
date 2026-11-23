@@ -34,5 +34,37 @@ jobs:
         with:
           node-version: "22"
 
-      - name: 试运行安装
-        run: node scripts/install-skills.mjs --dry-run
+      - name: 冒烟可发现性（只读）
+        shell: pwsh
+        run: |
+          $output = npx -y skills@1.9.0 add . --list 2>&1 | Out-String
+          $code = $LASTEXITCODE
+          # CLI 给数字和名字上了颜色，先剥掉 ANSI 再断言
+          $output = $output -replace "`e\[[0-9;]*[A-Za-z]", ""
+          Write-Output $output
+          if ($code -ne 0) {
+            throw "skills add --list 退出码 $code"
+          }
+
+          $expected = @(Get-ChildItem -Path "skills/*/SKILL.md" | ForEach-Object { $_.Directory.Name } | Sort-Object)
+          Write-Output "expected ($($expected.Count)): $($expected -join ', ')"
+
+          $match = [regex]::Match($output, "Found (\d+) skills?")
+          if (-not $match.Success) {
+            throw "输出里找不到 'Found N skills' 行"
+          }
+          $reported = [int]$match.Groups[1].Value
+          Write-Output "reported: $reported"
+
+          if ($reported -ne $expected.Count) {
+            throw "CLI 报告 $reported 个 skill，仓库有 $($expected.Count) 个"
+          }
+
+          $missing = @($expected | Where-Object {
+            $pattern = "(?<![A-Za-z0-9_-])" + [regex]::Escape($_) + "(?![A-Za-z0-9_-])"
+            $output -notmatch $pattern
+          })
+          if ($missing.Count -gt 0) {
+            throw "输出里缺这些 skill 名：$($missing -join ', ')"
+          }
+          Write-Output "可发现性冒烟通过：$($expected -join ', ')"

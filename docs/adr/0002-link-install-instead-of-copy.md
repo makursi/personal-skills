@@ -1,5 +1,7 @@
 # 用目录链接安装，不用复制
 
+**Status:** superseded by [ADR 0003](./0003-install-via-official-skills-cli.md)
+
 决定安装方式是目录链接：Windows 上用 junction，其他平台用目录符号链接。消费目录里的每一项都指回仓库中的对应目录。
 
 ## Considered Options

@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """校验 skills/ 下每个 skill 的结构与文件引用。
 
-硬失败 5 条：
+硬失败 6 条：
   1. frontmatter 能被 YAML 解析
   2. name 存在，且等于目录名
   3. name 匹配 ^[a-z0-9-]{1,64}$
   4. description 存在，且不超过 1024 字符
   5. 正文里的 references/、scripts/、assets/ 相对路径真实存在
+  6. metadata.internal 不为真（true 或 1）：为真的 skill 会被安装器跳过，装不上
 
 其余问题只告警。退出码：0 通过，1 有硬失败，2 环境问题。
 """
@@ -123,12 +124,17 @@ def check_skill(skill_dir: Path, findings: Findings) -> None:
 
     metadata = data.get("metadata")
     if not isinstance(metadata, dict):
-        findings.warn(where, "缺少 metadata 块（version / tags / scope）")
+        findings.warn(where, "缺少 metadata 块（version / tags）")
     else:
         if not metadata.get("version"):
             findings.warn(where, "metadata 缺少 version")
         if not metadata.get("tags"):
             findings.warn(where, "metadata 缺少 tags")
+        internal = metadata.get("internal")
+        if internal is True or internal == 1:
+            findings.error(
+                where, "metadata.internal 为真：安装器会跳过这个 skill，装不上"
+            )
 
     if not any(line.startswith("## ") for line in body.splitlines()):
         findings.warn(where, "正文没有二级标题")
