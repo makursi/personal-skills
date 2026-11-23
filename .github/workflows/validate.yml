@@ -1,0 +1,35 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  validate:
+    name: validate (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+
+      - name: 安装校验依赖
+        run: python -m pip install --upgrade pip pyyaml
+
+      - name: 校验 skill 结构
+        run: python scripts/validate-skills.py
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+
+      - name: 试运行安装
+        run: node scripts/install-skills.mjs --dry-run
