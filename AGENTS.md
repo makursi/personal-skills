@@ -16,7 +16,7 @@
 python scripts/validate-skills.py
 ```
 
-退出码 0 才算完成。只告警不算完成，先用 `--strict` 看一遍。
+退出码 0 才算完成。告警不拦提交，但先看一遍再决定改不改。要一次看全就加 `--strict`，它把告警也当失败。
 
 ## 新增 skill 的流程
 
